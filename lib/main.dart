@@ -1,22 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:twitter_clone/features/view/login_view.dart';
+import 'package:twitter_clone/common/common.dart';
+import 'package:twitter_clone/common/error_page.dart';
+import 'package:twitter_clone/features/controller/auth_controller.dart';
+import 'package:twitter_clone/features/view/sign_up_view.dart';
 import 'package:twitter_clone/theme/theme.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: AppTheme.theme,
       title: 'Twitter Demo',
-      home: const LoginView(),
+      home: ref.watch(currentUserAccountProvider).when(
+            data: (user) {
+              // if (user != null) {
+              //   return const HomeView();
+              // },
+              return const SignUpView();
+            },
+            error: (err, st) {
+              return ErrorPage(
+                errorText: err.toString(),
+              );
+            },
+            loading: () => const LoadingPage(),
+          ),
     );
   }
 }

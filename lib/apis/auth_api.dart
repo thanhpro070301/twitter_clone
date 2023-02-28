@@ -15,6 +15,7 @@ abstract class IAuthAPI {
     required String email,
     required String password,
   });
+  Future<model.Account?> currentUserAccount();
 }
 
 // ignore: non_constant_identifier_names
@@ -26,6 +27,14 @@ final AuthAPIProvider = Provider((ref) {
 class AuthAPI implements IAuthAPI {
   final Account _account;
   AuthAPI({required Account account}) : _account = account;
+  @override
+  Future<model.Account?> currentUserAccount() async {
+    try {
+      return _account.get();
+    } catch (_) {}
+    return null;
+  }
+
   @override
   FutureEither<model.Account> signUp(
       {required String email, required String password}) async {
