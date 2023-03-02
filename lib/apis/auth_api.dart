@@ -30,8 +30,10 @@ class AuthAPI implements IAuthAPI {
   @override
   Future<model.Account?> currentUserAccount() async {
     try {
-      return _account.get();
+      print("lay dc roi");
+      return await _account.get();
     } catch (_) {}
+    print("tao bi null");
     return null;
   }
 

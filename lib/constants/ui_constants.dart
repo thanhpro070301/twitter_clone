@@ -14,4 +14,10 @@ class UIConstants {
       centerTitle: true,
     );
   }
+
+  static List<Widget> bottomTabBarView = [
+    const Text("Home "),
+    const Text("Search"),
+    const Text("Notification "),
+  ];
 }
